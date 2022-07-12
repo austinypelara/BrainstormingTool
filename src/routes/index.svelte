@@ -63,11 +63,22 @@
 </svelte:head>
 
 <script>
-import Challenge from "../components/Challenge.svelte";
-import Idea from "../components/Idea.svelte";
-import GridList from "../components/GridList.svelte";
+    import Challenge from "../components/Challenge.svelte";
+    import Idea from "../components/Idea.svelte";
+    import GridList from "../components/GridList.svelte";
+    import FAB from "../components/FAB.svelte";
 
-let projectName = "Project Title";
+    let projectName = "Project Title";
+
+    let sectionsList = [];
+
+    function addGrid(){
+        sectionsList = [...sectionsList, {comp: GridList}];
+    }
+
+    function addIdea(){
+        sectionsList = [...sectionsList, {comp: Idea}];
+    }
 
 </script>
 
@@ -83,4 +94,10 @@ let projectName = "Project Title";
     <Challenge></Challenge>
     <Idea></Idea>
     <GridList></GridList>
+
+    {#each sectionsList as sec}
+        <svelte:component this={sec.comp}></svelte:component>
+    {/each}
+
+    <FAB on:newidea={addIdea} on:newgrid={addGrid}></FAB>
 </main>
