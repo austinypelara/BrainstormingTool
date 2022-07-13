@@ -67,20 +67,22 @@
     import Idea from "../components/Idea.svelte";
     import GridList from "../components/GridList.svelte";
     import FAB from "../components/FAB.svelte";
+    import { tick } from "svelte";
 
     let projectName = "Project Title";
     var challengeText = "";
+    var fab;
 
     let sectionsList = [];
     var sectionCounter = 0;
 
     function addGrid(){
         console.log(challengeText)
-        sectionsList = [...sectionsList, {id: sectionCounter++, type: GridList}];
+        sectionsList = [...sectionsList, {id: sectionCounter++, type: GridList, comp: null}];
     }
 
     function addIdea(){
-        sectionsList = [...sectionsList, {id: sectionCounter++, type: Idea}];
+        sectionsList = [...sectionsList, {id: sectionCounter++, type: Idea, comp: null}];
     }
 
     function deleteSection(e){
@@ -92,6 +94,7 @@
         var data = {
             title: projectName,
             challenge: challengeText,
+            counter: sectionCounter,
             children: []
         };
 
@@ -101,6 +104,29 @@
 
         console.log(data)
         return data;
+    }
+
+    async function loadData(data){
+        data = JSON.parse(data);
+        console.log(data);
+
+        projectName = data.title;
+        challengeText = data.challenge;
+        sectionCounter = data.children.length;
+
+        for(var i = 0; i < data.children.length; i++){
+            if(data.children[i].type == 0){
+                sectionsList[i] = {id: data.children[i].id, type: GridList, comp: null};
+            } else {
+                sectionsList[i] = {id: data.children[i].id, type: Idea, comp: null};
+            }
+        }
+
+        await tick();
+
+        for(var i = 0; i < data.children.length; i++){
+            sectionsList[i].loadData(data.children[i]);
+        }
     }
 
 </script>
@@ -123,10 +149,18 @@
         -->
 
         {#each sectionsList as sec, i (sec.id)}
-            <svelte:component this={sec.type} index={i} on:delete={deleteSection} bind:getData={sec.getData}></svelte:component>
+            <svelte:component 
+                this={sec.type} 
+                index={i} 
+                on:delete={deleteSection} 
+                bind:getData={sec.getData}
+                bind:loadData={sec.loadData}></svelte:component>
         {/each}
     </section>
 
-    <FAB on:newidea={addIdea} on:newgrid={addGrid}></FAB>
-    <button on:click={getData}>show</button>
+    <FAB bind:this={fab} 
+        on:newidea={addIdea} 
+        on:newgrid={addGrid} 
+        on:export={() => {fab.downloadJSON(getData())}} 
+        on:import={(e) => {loadData(JSON.parse(e.detail))}}></FAB>
 </main>

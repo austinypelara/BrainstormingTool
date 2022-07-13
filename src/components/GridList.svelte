@@ -94,7 +94,7 @@
     }
 </style>
 
-<section transition:fade>
+<section>
     
     {#each items as item, i}
         <GridItem id={i} bind:info={item.info} bind:color={item.color} on:delete={deleteGridItem} bind:getData={item.getData} ></GridItem>

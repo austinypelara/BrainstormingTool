@@ -3,6 +3,8 @@
     import { fade } from 'svelte/transition';
 
     export let index = 0;
+    export const self = this;
+    
     let text = "";
 
     const dispatch = createEventDispatcher();

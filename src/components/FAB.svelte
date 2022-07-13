@@ -14,18 +14,35 @@
 
     let exportLink;
     let importLink;
+    let importFile;
 
-    function downloadJSON(data){
+    export const downloadJSON = (data) => {
         console.log(exportLink);
-        let dataStr = JSON.stringify({into: "12345qwerty"});
+        let dataStr = JSON.stringify(data);
         let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
 
         let exportFileDefaultName = 'data.json';
 
         exportLink.setAttribute('href', dataUri);
         exportLink.setAttribute('download', exportFileDefaultName);
-        exportLink.click();
+        //exportLink.click();
     }
+
+    async function loadFile(file){
+        var fr = new FileReader();
+
+        fr.onload = (e) => {
+            dispatch("import", JSON.stringify(e.target.result));
+        }
+
+        fr.readAsText(file);
+    }
+
+    $: {
+        if(importFile)
+            loadFile(importFile[0])
+    }
+
 </script>
 
 <style>
@@ -94,10 +111,10 @@
                         <PlusBoxMultiple size={"1.5rem"}></PlusBoxMultiple>
                     </button>
                 </li>
-                <li class="btn-anim"><a bind:this={exportLink} on:click={downloadJSON} title="Export JSON" href=""><Download size={"1.5rem"}></Download></a></li>
+                <li class="btn-anim"><a bind:this={exportLink} on:click={() => {dispatch("export")}} title="Export JSON" href=""><Download size={"1.5rem"}></Download></a></li>
                 <li class="btn-anim">
                     <label title="Import JSON" for="fileInput"> <Upload size={"1.5rem"}></Upload> </label>
-                    <input id="fileInput" type="file" hidden/>
+                    <input id="fileInput" type="file" bind:files={importFile} hidden/>
                 </li>
             </ul>
         {/if}
