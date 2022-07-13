@@ -1,17 +1,42 @@
 <script>
     import { each } from "svelte/internal";
     import GridItem from "./GridItem.svelte";
+    import { createEventDispatcher } from "svelte";
+    import { fade } from 'svelte/transition';
+
+    export let index = 0;
+
+    const dispatch = createEventDispatcher();
 
     let items = [];
 
     function addGridItem(){
-        console.log("add item");
         items = [...items, {info: "", color: "lightgrey"}];
     }
 
     function deleteGridItem(e){
         items.splice(e.detail, 1);
         items = items;
+    }
+
+    export const getData = () => {
+        var data = {
+            id: index,
+            type: 0,
+            children: []
+        }
+        
+        for(var i = 0; i < items.length; i++){
+            data.children[i] = items[i].getData();
+            //console.log(items[i].self);
+        }
+        
+        return data;
+    }
+
+    export const loadData = (data) => {
+        index = data.id;
+        items = [...data.children]
     }
 
 </script>
@@ -22,6 +47,7 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
         padding: 0.5rem 0;
+        position: relative;
     }
 
     .addBtn {
@@ -44,15 +70,40 @@
     .addBtn:active {
         transform: scale(0.9);
     }
+
+    .deleteBtn {
+        border: none;
+        background-color: rgba(200 0 0 / 0.5);
+        padding: 0.5rem 1rem;
+        border-radius: 100vmax;
+        cursor: pointer;
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    @media screen and (max-width: 700px){
+        section {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media screen and (max-width: 500px){
+        section {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 
-<section>
+<section transition:fade>
     
     {#each items as item, i}
-        <GridItem id={i} bind:info={item.info} bind:color={item.color} on:delete={deleteGridItem}></GridItem>
+        <GridItem id={i} bind:info={item.info} bind:color={item.color} on:delete={deleteGridItem} bind:getData={item.getData} ></GridItem>
     {/each}
 
     <button class="addBtn" on:click={addGridItem}>
         +
     </button>
+    
 </section>
+
+<button class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>

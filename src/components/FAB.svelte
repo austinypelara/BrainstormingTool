@@ -15,7 +15,7 @@
     let exportLink;
     let importLink;
 
-    function downloadJSON(){
+    function downloadJSON(data){
         console.log(exportLink);
         let dataStr = JSON.stringify({into: "12345qwerty"});
         let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
@@ -30,7 +30,7 @@
 
 <style>
     section {
-        position: fixed;
+        
         bottom: 0;
         padding: 1rem;
         max-width: 1280px;

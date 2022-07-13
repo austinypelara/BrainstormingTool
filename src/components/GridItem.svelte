@@ -3,6 +3,7 @@
     import Delete from "svelte-material-icons/Delete.svelte";
     import ThumbUp from "svelte-material-icons/ThumbUp.svelte";
     import ThumbDown from "svelte-material-icons/ThumbDown.svelte";
+    import { fade } from 'svelte/transition';
 
     export let info = "default info";
     export let id = 0;
@@ -10,6 +11,14 @@
     const dispatch = createEventDispatcher();
 
     export let color = "lightgrey";
+
+    export const getData = () => {
+        return {
+            id: id,
+            info: info,
+            color: color
+        }
+    }
 
 </script>
 
@@ -43,7 +52,7 @@
 
 </style>
 
-<div class="item" style="--bgColor: {color}">
+<div class="item" style="--bgColor: {color}" in:fade>
     <textarea bind:value={info} placeholder="Type here" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
     <div class="bottomRow">
         <div>

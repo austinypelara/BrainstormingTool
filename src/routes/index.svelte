@@ -69,15 +69,38 @@
     import FAB from "../components/FAB.svelte";
 
     let projectName = "Project Title";
+    var challengeText = "";
 
     let sectionsList = [];
+    var sectionCounter = 0;
 
     function addGrid(){
-        sectionsList = [...sectionsList, {comp: GridList}];
+        console.log(challengeText)
+        sectionsList = [...sectionsList, {id: sectionCounter++, type: GridList}];
     }
 
     function addIdea(){
-        sectionsList = [...sectionsList, {comp: Idea}];
+        sectionsList = [...sectionsList, {id: sectionCounter++, type: Idea}];
+    }
+
+    function deleteSection(e){
+        sectionsList.splice(e.detail, 1);
+        sectionsList = sectionsList;
+    }
+
+    function getData(){
+        var data = {
+            title: projectName,
+            challenge: challengeText,
+            children: []
+        };
+
+        for(var i = 0; i < sectionsList.length; i++){
+            data.children[i] = sectionsList[i].getData();
+        }
+
+        console.log(data)
+        return data;
     }
 
 </script>
@@ -85,19 +108,25 @@
 <style>
     h1 {
         padding: 1rem;
+        font-size: 2rem;
         text-align: center;
     }
 </style>
 
 <main class="ctn">
-    <h1 contenteditable="true">{projectName}</h1>
-    <Challenge></Challenge>
-    <Idea></Idea>
-    <GridList></GridList>
+    <section>
+        <h1 contenteditable="true" bind:innerHTML={projectName}>{projectName}</h1>
+        <Challenge bind:text={challengeText}></Challenge>
+        <!--
+        <Idea></Idea>
+        <GridList></GridList>
+        -->
 
-    {#each sectionsList as sec}
-        <svelte:component this={sec.comp}></svelte:component>
-    {/each}
+        {#each sectionsList as sec, i (sec.id)}
+            <svelte:component this={sec.type} index={i} on:delete={deleteSection} bind:getData={sec.getData}></svelte:component>
+        {/each}
+    </section>
 
     <FAB on:newidea={addIdea} on:newgrid={addGrid}></FAB>
+    <button on:click={getData}>show</button>
 </main>

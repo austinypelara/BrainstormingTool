@@ -1,5 +1,5 @@
 <script>
-
+    export let text = "";
 </script>
 
 <style>
@@ -32,6 +32,6 @@
 <section>
     <div class="challengeLeft">Challenge</div>
     <div class="challengeRight">
-        <textarea placeholder="What's the Challenge?" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+        <textarea bind:value={text} placeholder="What's the Challenge?" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
     </div>
 </section>
