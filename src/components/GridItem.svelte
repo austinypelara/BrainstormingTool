@@ -56,16 +56,16 @@
     <textarea bind:value={info} placeholder="Type here" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
     <div class="bottomRow">
         <div>
-            <button class="btn-anim" on:click={() => {color = color == "lightgreen" ? "lightgrey" : "lightgreen";}} >
+            <button tabindex="-1" class="btn-anim" on:click={() => {color = color == "lightgreen" ? "lightgrey" : "lightgreen";}} >
                 <ThumbUp color={"rgba(0 100 0 / 0.4)"} size={"1.4rem"} />
             </button>
             
-            <button class="btn-anim" on:click={() => {color = color == "pink" ? "lightgrey" : "pink";}}>
+            <button tabindex="-1" class="btn-anim" on:click={() => {color = color == "pink" ? "lightgrey" : "pink";}}>
                 <ThumbDown color={"rgba(100 0 0 / 0.4)"} size={"1.4rem"} />
             </button>
         </div>
         
-        <button class="btn-anim" on:click={() => {dispatch("delete", id)}}>
+        <button tabindex="-1" class="btn-anim" on:click={() => {dispatch("delete", id)}}>
             <Delete color={"red"} size={"1.4rem"} />
         </button>
     </div>

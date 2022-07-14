@@ -141,7 +141,7 @@
 
 <main class="ctn">
     <section>
-        <h1 contenteditable="true" bind:innerHTML={projectName}>{projectName}</h1>
+        <h1 tabindex="0" contenteditable="true" bind:innerHTML={projectName}>{projectName}</h1>
         <Challenge bind:text={challengeText}></Challenge>
         <!--
         <Idea></Idea>
@@ -163,4 +163,5 @@
         on:newgrid={addGrid} 
         on:export={() => {fab.downloadJSON(getData())}} 
         on:import={(e) => {loadData(JSON.parse(e.detail))}}></FAB>
+
 </main>

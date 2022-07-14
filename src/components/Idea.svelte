@@ -58,5 +58,5 @@
 
 <div class="idea" transition:fade>
     <textarea bind:value={text} placeholder="Type here" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
-    <button class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>
+    <button tabindex="-1" class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>
 </div>

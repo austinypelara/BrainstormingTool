@@ -94,16 +94,16 @@
     }
 </style>
 
-<section>
+<section transition:fade>
     
     {#each items as item, i}
         <GridItem id={i} bind:info={item.info} bind:color={item.color} on:delete={deleteGridItem} bind:getData={item.getData} ></GridItem>
     {/each}
 
-    <button class="addBtn" on:click={addGridItem}>
+    <button tabindex="-1" class="addBtn" on:click={addGridItem}>
         +
     </button>
     
 </section>
 
-<button class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>
+<button tabindex="-1" class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>
