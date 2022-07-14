@@ -1,6 +1,6 @@
 # Elara Brainstorming Tool
 
-This is a simple webapp to help teams collaborate and share ideas for new projects.
+This is a simple webapp to help teams collaborate and share ideas for new projects. Deployed [here](https://austinypelara.github.io/BrainstormingTool/)
 
 ## Getting Started
 
