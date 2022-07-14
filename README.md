@@ -1,38 +1,56 @@
-# create-svelte
+# Elara Brainstorming Tool
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This is a simple webapp to help teams collaborate and share ideas for new projects.
 
-## Creating a project
+## Getting Started
 
-If you're seeing this, you've probably already done this step. Congrats!
+Start by first cloning the repository:
 
 ```bash
-# create a new project in the current directory
-npm init svelte
-
-# create a new project in my-app
-npm init svelte my-app
+git clone https://github.com/austinypelara/BrainstormingTool.git
 ```
 
-## Developing
+Or,
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+```bash
+gh repo clone austinypelara/BrainstormingTool
+```
+
+## Dependencies
+
+Next install the dependencies:
+
+```bash
+npm install
+```
+
+## Running
+
+Run a development server for hot reloading and fast development using
 
 ```bash
 npm run dev
+```
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+The site is hosted at [https://localhost:3000/BrainstormingTool](https://localhost:3000/BrainstormingTool). By default, it is not hosting at the root simply because it helps avoid issues with hosting on [Github Pages](https://pages.github.com/). You can change this by modifying the `svelte.config.js` file:
+
+```bash
+// Change
+const dev = "production" === "development";
+
+// To
+const dev = "development" === "development";
+
+// Or
+const dev = true;
 ```
 
 ## Building
 
-To create a production version of your app:
+To build the project, just run:
 
 ```bash
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+The default folder for the static folders will be in `/docs`. Again, this is because of [Github Pages](https://pages.github.com/).
