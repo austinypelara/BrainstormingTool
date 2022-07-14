@@ -1,6 +1,9 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import { fade } from 'svelte/transition';
+    import ArrowUpBold from "svelte-material-icons/ArrowUpBold.svelte";
+    import ArrowDownBold from "svelte-material-icons/ArrowDownBold.svelte";
+    
 
     export let index = 0;
     export const self = this;
@@ -54,9 +57,29 @@
         color: white;
     }
 
+    .sectionOptions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .arrowButtons > button {
+        border: none;
+        outline: none;
+        background-color: transparent;
+        cursor: pointer;
+        color: rgba(0 0 0 / 0.5);
+    }
 </style>
 
 <div class="idea" transition:fade>
     <textarea bind:value={text} placeholder="Type here" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
-    <button tabindex="-1" class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>
+    
+    <div class="sectionOptions">
+        <button tabindex="-1" class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>
+        <div class="arrowButtons">
+            <button tabindex="-1" on:click={() => {dispatch("moveup", index);}} class="btn-anim"> <ArrowUpBold size={"1.5rem"}></ArrowUpBold> </button>
+            <button tabindex="-1" on:click={() => {dispatch("movedown", index);}} class="btn-anim"> <ArrowDownBold size={"1.5rem"}></ArrowDownBold> </button>
+        </div>
+    </div>
 </div>

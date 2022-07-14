@@ -3,6 +3,8 @@
     import GridItem from "./GridItem.svelte";
     import { createEventDispatcher } from "svelte";
     import { fade } from 'svelte/transition';
+    import ArrowUpBold from "svelte-material-icons/ArrowUpBold.svelte";
+    import ArrowDownBold from "svelte-material-icons/ArrowDownBold.svelte";
 
     export let index = 0;
 
@@ -81,6 +83,22 @@
         margin-bottom: 1rem;
     }
 
+    .sectionOptions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .arrowButtons > button {
+        border: none;
+        outline: none;
+        background-color: transparent;
+        cursor: pointer;
+        color: rgba(0 0 0 / 0.5);
+    }
+
     @media screen and (max-width: 700px){
         section {
             grid-template-columns: repeat(2, 1fr);
@@ -106,4 +124,11 @@
     
 </section>
 
-<button tabindex="-1" class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>
+<div class="sectionOptions">
+    <button tabindex="-1" class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>
+    
+    <div class="arrowButtons">
+        <button tabindex="-1" on:click={() => {dispatch("moveup", index);}} class="btn-anim"> <ArrowUpBold size={"1.5rem"}></ArrowUpBold> </button>
+        <button tabindex="-1" on:click={() => {dispatch("movedown", index);}} class="btn-anim"> <ArrowDownBold size={"1.5rem"}></ArrowDownBold> </button>
+    </div>
+</div>

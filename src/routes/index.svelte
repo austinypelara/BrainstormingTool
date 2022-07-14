@@ -90,6 +90,30 @@
         sectionsList = sectionsList;
     }
 
+    function moveSectionUp(e){
+        var index = e.detail;
+        if(index == 0)
+            return;
+
+        var t = sectionsList[index];
+        sectionsList[index] = sectionsList[index - 1];
+        sectionsList[index - 1] = t;
+
+        sectionsList = sectionsList;
+    }
+
+    function moveSectionDown(e){
+        var index = e.detail;
+        if(index == sectionsList.length - 1)
+            return;
+
+        var t = sectionsList[index];
+        sectionsList[index] = sectionsList[index + 1];
+        sectionsList[index + 1] = t;
+
+        sectionsList = sectionsList;
+    }
+
     function getData(){
         var data = {
             title: projectName,
@@ -153,6 +177,8 @@
                 this={sec.type} 
                 index={i} 
                 on:delete={deleteSection} 
+                on:moveup={moveSectionUp}
+                on:movedown={moveSectionDown}
                 bind:getData={sec.getData}
                 bind:loadData={sec.loadData}></svelte:component>
         {/each}
