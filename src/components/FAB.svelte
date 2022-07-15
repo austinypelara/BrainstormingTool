@@ -21,7 +21,7 @@
         let dataStr = JSON.stringify(data);
         let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
 
-        let exportFileDefaultName = 'data.json';
+        let exportFileDefaultName = data.title + '.json';
 
         exportLink.setAttribute('href', dataUri);
         exportLink.setAttribute('download', exportFileDefaultName);
@@ -47,7 +47,6 @@
 
 <style>
     section {
-        
         bottom: 0;
         padding: 1rem;
         max-width: 1280px;
@@ -74,25 +73,41 @@
     }
 
     ul {
-        display: flex;
+        display: grid;
         list-style: none;
         align-items: center;
+        grid-auto-flow: column;
+        grid-template-columns: repeat(auto-fit, 1fr);
+        gap: 1rem;
+        margin-right: 1rem;
     }
 
     ul > li {
-        margin-right: 0.6rem;
         height: 100%;
-        padding: 0 1rem;
         
+        width: 100%;
     }
 
-    ul > li > * {
-        padding: 0rem;
+    ul .btn-anim {
+        padding: 0.2rem;
         color: black;
-        background-color: transparent;
+        background-color: #ddd;
         border: none;
         cursor: pointer;
+        width: 2rem;
+        height: 2rem;
+        display: inline-block;
+        border-radius: 100vmax;
         
+        display: grid;
+        place-items: center;
+        box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    ul .btn-anim:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        background-color: transparent;
+        outline: 1px solid lightgray;
     }
 
 </style>
@@ -111,9 +126,11 @@
                         <PlusBoxMultiple size={"1.5rem"}></PlusBoxMultiple>
                     </button>
                 </li>
-                <li class="btn-anim"><a bind:this={exportLink} on:click={() => {dispatch("export")}} title="Export JSON" href=""><Download size={"1.5rem"}></Download></a></li>
-                <li class="btn-anim">
-                    <label title="Import JSON" for="fileInput"> <Upload size={"1.5rem"}></Upload> </label>
+                <li>
+                    <a class="btn-anim" bind:this={exportLink} on:click={() => {dispatch("export")}} title="Export JSON" href=""><Download size={"1.5rem"}></Download></a>
+                </li>
+                <li>
+                    <label class="btn-anim" title="Import JSON" for="fileInput"> <Upload size={"1.5rem"}></Upload> </label>
                     <input id="fileInput" type="file" bind:files={importFile} hidden/>
                 </li>
             </ul>

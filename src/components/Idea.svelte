@@ -72,7 +72,7 @@
     }
 </style>
 
-<div class="idea" transition:fade>
+<div class="idea" >
     <textarea bind:value={text} placeholder="Type here" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
     
     <div class="sectionOptions">
