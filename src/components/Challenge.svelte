@@ -27,11 +27,20 @@
         place-items: center;
         padding: 1rem;
     }
+
+    p {
+        width: 100%;
+    }
+
+    p:active,p:focus {
+        border: none;
+        outline: none;
+    }
 </style>
 
 <section>
     <div class="challengeLeft">Challenge</div>
     <div class="challengeRight">
-        <textarea bind:value={text} placeholder="What's the Challenge?" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+        <p bind:innerHTML={text} contenteditable="true"></p>
     </div>
 </section>

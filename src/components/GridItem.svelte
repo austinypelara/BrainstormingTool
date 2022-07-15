@@ -50,10 +50,16 @@
         padding: 0.2rem;
     }
 
+    p:active,p:focus {
+        border: none;
+        outline: none;
+    }
+
 </style>
 
 <div class="item" style="--bgColor: {color}" in:fade>
-    <textarea bind:value={info} placeholder="Type here" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+    
+    <p bind:innerHTML={info} contenteditable="true"></p>
     <div class="bottomRow">
         <div>
             <button tabindex="-1" class="btn-anim" on:click={() => {color = color == "lightgreen" ? "lightgrey" : "lightgreen";}} >

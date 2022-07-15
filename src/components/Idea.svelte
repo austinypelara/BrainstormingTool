@@ -36,14 +36,15 @@
         margin-bottom: 1rem;
     }
 
-    textarea {
+    p {
         width: 100%;
         background-color: transparent;
         border:none;
         outline: none;
+        margin-bottom: 0.5rem;;
     }
 
-    textarea:active,textarea:focus {
+    p:active,p:focus {
         border:none;
         outline: none;
     }
@@ -73,7 +74,7 @@
 </style>
 
 <div class="idea" >
-    <textarea bind:value={text} placeholder="Type here" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+    <p bind:innerHTML={text} contenteditable="true"></p>
     
     <div class="sectionOptions">
         <button tabindex="-1" class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>
