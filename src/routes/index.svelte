@@ -1,4 +1,6 @@
 <svelte:head>
+    <title>Brainstorming Tool | Elara Systems</title>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700;900&display=swap');
 
@@ -6,6 +8,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /*outline: 1px solid green;*/
         }
 
         body * {
@@ -77,7 +80,6 @@
     var sectionCounter = 0;
 
     function addGrid(){
-        console.log(challengeText)
         sectionsList = [...sectionsList, {id: sectionCounter++, type: GridList, comp: null}];
     }
 
@@ -132,25 +134,49 @@
 
     async function loadData(data){
         data = JSON.parse(data);
-        console.log(data);
+        //console.log(data);
 
         projectName = data.title;
         challengeText = data.challenge;
-        sectionCounter = data.children.length;
+
+        sectionCounter = 0;
+
+        for(var i = 0; i < sectionsList.length; i++){
+            sectionCounter = Math.max(sectionsList[i].id, sectionCounter);
+        }
+
+        sectionCounter++;
+        //sectionCounter = data.children.length;
+
+        sectionsList.length = 0; // reset state
+        sectionsList = [];
+
+        await tick();
+        
+
+        //console.log([...sectionsList])
 
         for(var i = 0; i < data.children.length; i++){
             if(data.children[i].type == 0){
-                sectionsList[i] = {id: data.children[i].id, type: GridList, comp: null};
+                sectionsList = [...sectionsList, {id: sectionCounter, type: GridList, comp: null}];
             } else {
-                sectionsList[i] = {id: data.children[i].id, type: Idea, comp: null};
+                sectionsList = [...sectionsList, {id: sectionCounter, type: Idea, comp: null}];
             }
+            sectionCounter++;
+            await tick();
         }
+
+        //sectionsList = sectionsList;
 
         await tick();
 
         for(var i = 0; i < data.children.length; i++){
             sectionsList[i].loadData(data.children[i]);
         }
+
+        sectionsList = sectionsList;
+
+
     }
 
 </script>
