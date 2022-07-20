@@ -65,29 +65,46 @@
     </style>
 </svelte:head>
 
+<svelte:window on:keydown={onKeyDown} />
+
 <script>
     import Challenge from "../components/Challenge.svelte";
     import Idea from "../components/Idea.svelte";
     import GridList from "../components/GridList.svelte";
     import FAB from "../components/FAB.svelte";
     import { tick } from "svelte";
+    import { undoStack } from "../stores.js"
 
     let projectName = "Project Title";
     var challengeText = "";
-    var fab;
-
     let sectionsList = [];
+    
+    var fab;
     var sectionCounter = 0;
 
     function addGrid(){
-        sectionsList = [...sectionsList, {id: sectionCounter++, type: GridList, comp: null}];
+        sectionsList = [...sectionsList, {id: sectionCounter++, type: GridList, comp: null, data: null}];
     }
 
     function addIdea(){
-        sectionsList = [...sectionsList, {id: sectionCounter++, type: Idea, comp: null}];
+        sectionsList = [...sectionsList, {id: sectionCounter++, type: Idea, comp: null, data: null}];
     }
 
     function deleteSection(e){
+        const section = sectionsList[e.detail];
+        const sectionData = section.getData();
+
+        undoStack.update(s => {
+            s = [...s, async () => {
+                sectionData.id = sectionCounter++;
+                section.data = sectionData;
+                sectionsList = [...sectionsList, section];
+
+                //restoreSection(sectionData);
+            }];
+            return s;
+        });
+
         sectionsList.splice(e.detail, 1);
         sectionsList = sectionsList;
     }
@@ -179,6 +196,21 @@
 
     }
 
+    function onKeyDown(e) {
+        var _event = window.event ? event : e;
+        if(_event.keyCode == 90 && _event.ctrlKey){
+            console.log("UNDO");
+            undoStack.update(s => {
+                console.log(s);
+                if(s.length > 0){
+                    const last = s.pop();
+                    last();
+                }
+                return s;
+            });
+        }
+    }
+
 </script>
 
 <style>
@@ -206,7 +238,8 @@
                 on:moveup={moveSectionUp}
                 on:movedown={moveSectionDown}
                 bind:getData={sec.getData}
-                bind:loadData={sec.loadData}></svelte:component>
+                bind:loadData={sec.loadData}
+                bind:restoreData={sec.data}></svelte:component>
         {/each}
     </section>
 
@@ -214,6 +247,6 @@
         on:newidea={addIdea} 
         on:newgrid={addGrid} 
         on:export={() => {fab.downloadJSON(getData())}} 
-        on:import={(e) => {loadData(JSON.parse(e.detail))}}></FAB>
+        on:import={(e) => {loadData(e.detail)}}></FAB>
 
 </main>

@@ -5,18 +5,34 @@
     import { fade } from 'svelte/transition';
     import ArrowUpBold from "svelte-material-icons/ArrowUpBold.svelte";
     import ArrowDownBold from "svelte-material-icons/ArrowDownBold.svelte";
+    import { undoStack } from "../stores.js";
 
     export let index = 0;
+    export let restoreData = null;
 
     const dispatch = createEventDispatcher();
-
+    
     let items = [];
+    
+    $: if(restoreData != null){
+        loadData(restoreData);
+        restoreData = null;
+    }
 
     function addGridItem(){
         items = [...items, {info: "", color: "lightgrey"}];
     }
 
     function deleteGridItem(e){
+        const deletedItem = items[e.detail];
+
+        undoStack.update(s => {
+            s = [...s, () => {
+                items = [...items, deletedItem];
+            }];
+            return s;
+        });
+
         items.splice(e.detail, 1);
         items = items;
     }

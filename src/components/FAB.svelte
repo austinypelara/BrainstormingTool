@@ -13,8 +13,8 @@
     let showList = false;
 
     let exportLink;
-    let importLink;
     let importFile;
+    let inputElement;
 
     export const downloadJSON = (data) => {
         console.log(exportLink);
@@ -32,15 +32,19 @@
         var fr = new FileReader();
 
         fr.onload = (e) => {
-            dispatch("import", JSON.stringify(e.target.result));
+            dispatch("import", e.target.result);
         }
 
         fr.readAsText(file);
     }
 
     $: {
-        if(importFile)
+        if(importFile && importFile[0]){
+            //console.log("restore")
+            //console.log(importFile.item(0))
             loadFile(importFile[0])
+            inputElement.value = '';
+        }
     }
 
 </script>
@@ -131,7 +135,7 @@
                 </li>
                 <li>
                     <label class="btn-anim" title="Import JSON" for="fileInput"> <Upload size={"1.5rem"}></Upload> </label>
-                    <input id="fileInput" type="file" bind:files={importFile} hidden/>
+                    <input id="fileInput" type="file" accept=".json" bind:files={importFile} bind:this={inputElement} hidden/>
                 </li>
             </ul>
         {/if}

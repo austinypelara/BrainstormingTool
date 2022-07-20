@@ -6,12 +6,18 @@
     
 
     export let index = 0;
-    export const self = this;
+    export let restoreData = null;
+
     
     let text = "";
-
+    
     const dispatch = createEventDispatcher();
-
+    
+    $: if(restoreData != null){
+        loadData(restoreData);
+        restoreData = null;
+    }
+    
     export const getData = () => {
         var data = {
             id: index,
