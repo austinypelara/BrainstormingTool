@@ -65,7 +65,7 @@
     </style>
 </svelte:head>
 
-<svelte:window on:keydown={onKeyDown} />
+<svelte:window on:keydown={onKeyDown} on:beforeunload={(e) => {e = e || window.event; e.returnValue = "Are your sure?"; return "Are you sure?"}} />
 
 <script>
     import Challenge from "../components/Challenge.svelte";
