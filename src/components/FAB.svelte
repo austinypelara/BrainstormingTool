@@ -3,6 +3,7 @@
     import Pencil from "svelte-material-icons/Pencil.svelte";
     import Download from "svelte-material-icons/Download.svelte";
     import Upload from "svelte-material-icons/Upload.svelte";
+    import Undo from "svelte-material-icons/Undo.svelte";
 
     import { fly } from 'svelte/transition';
     import { createEventDispatcher } from "svelte";
@@ -120,6 +121,11 @@
     <div class="fab">
         {#if showList}
             <ul bind:this={fabList} transition:fly={{x: 200, duration: 200}}>
+                <li>
+                    <button title="Undo" class="btn-anim" on:click={() => {dispatch("undo")}}>
+                        <Undo size={"1.5rem"}></Undo>
+                    </button>
+                </li>
                 <li>
                     <button title="Add Idea" class="btn-anim" on:click={() => {dispatch("newidea")}}>
                         <Pencil size={"1.5rem"}></Pencil>

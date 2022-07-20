@@ -65,7 +65,7 @@
     </style>
 </svelte:head>
 
-<svelte:window on:keydown={onKeyDown} on:beforeunload={(e) => {e = e || window.event; e.returnValue = "Are your sure?"; return "Are you sure?"}} />
+<svelte:window on:beforeunload={(e) => {e = e || window.event; e.returnValue = "Are your sure?"; return "Are you sure?"}} />
 
 <script>
     import Challenge from "../components/Challenge.svelte";
@@ -73,7 +73,7 @@
     import GridList from "../components/GridList.svelte";
     import FAB from "../components/FAB.svelte";
     import { tick } from "svelte";
-    import { undoStack } from "../stores.js"
+    import { undoStack } from "../stores.js";
 
     let projectName = "Project Title";
     var challengeText = "";
@@ -196,19 +196,16 @@
 
     }
 
-    function onKeyDown(e) {
-        var _event = window.event ? event : e;
-        if(_event.keyCode == 90 && _event.ctrlKey){
-            console.log("UNDO");
-            undoStack.update(s => {
-                console.log(s);
-                if(s.length > 0){
-                    const last = s.pop();
-                    last();
-                }
-                return s;
-            });
-        }
+    function handleUndo(){
+        console.log("UNDO");
+        undoStack.update(s => {
+            console.log(s);
+            if(s.length > 0){
+                const last = s.pop();
+                last();
+            }
+            return s;
+        });
     }
 
 </script>
@@ -247,6 +244,7 @@
         on:newidea={addIdea} 
         on:newgrid={addGrid} 
         on:export={() => {fab.downloadJSON(getData())}} 
-        on:import={(e) => {loadData(e.detail)}}></FAB>
+        on:import={(e) => {loadData(e.detail)}}
+        on:undo={handleUndo}></FAB>
 
 </main>
