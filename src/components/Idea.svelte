@@ -71,10 +71,15 @@
         cursor: pointer;
         color: rgba(0 0 0 / 0.5);
     }
+
+    p:empty:not(:focus)::before {
+        content: attr(data-placeholder);
+        color: rgba(0 0 0 / 0.3);
+    }
 </style>
 
 <div class="idea" >
-    <p bind:innerHTML={text} contenteditable="true"></p>
+    <p data-placeholder="Good ideas go here" bind:innerHTML={text} contenteditable="true"></p>
     
     <div class="sectionOptions">
         <button tabindex="-1" class="deleteBtn btn-anim" on:click={() => { dispatch("delete", index) }}>Delete</button>

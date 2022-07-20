@@ -36,11 +36,16 @@
         border: none;
         outline: none;
     }
+
+    p:empty:not(:focus)::before {
+        content: attr(data-placeholder);
+        color: rgba(0 0 0 / 0.3);
+    }
 </style>
 
 <section>
     <div class="challengeLeft">Challenge</div>
     <div class="challengeRight">
-        <p bind:innerHTML={text} contenteditable="true"></p>
+        <p data-placeholder="What's the challenge?" bind:innerHTML={text} contenteditable="true"></p>
     </div>
 </section>

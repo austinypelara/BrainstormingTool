@@ -55,11 +55,15 @@
         outline: none;
     }
 
+    p:empty:not(:focus)::before {
+        content: attr(data-placeholder);
+        color: rgba(0 0 0 / 0.3);
+    }
 </style>
 
 <div class="item" style="--bgColor: {color}" in:fade>
     
-    <p bind:innerHTML={info} contenteditable="true"></p>
+    <p data-placeholder="Concept" bind:innerHTML={info} contenteditable="true"></p>
     <div class="bottomRow">
         <div>
             <button tabindex="-1" class="btn-anim" on:click={() => {color = color == "lightgreen" ? "lightgrey" : "lightgreen";}} >
