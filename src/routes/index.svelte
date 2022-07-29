@@ -15,6 +15,11 @@
             font-family: 'Poppins', sans-serif;
         } 
 
+        img {
+            width: 100%;
+            display: block;
+        }
+
         .ctn {
             max-width: 1280px;
             margin-left: auto;
